@@ -23,6 +23,6 @@ graph.addIndArcDirect(0,5);
 
 
 
-console.log(graph.counterTypeArc(0));
+console.log(graph.thereAreLoopDirect(0));
 
 

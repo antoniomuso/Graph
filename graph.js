@@ -89,6 +89,41 @@ module.exports =
 
                 return {F: forward, B: back, C: crossing, DFSTree: father};
             }
+            this.thereAreLoopDirect = function (ind) { // I don't use counterTypeArc only for learning
+                if (ind >= this.allNodes.length) throw new Error("there aren't node");
+                var VIS = new Array(this.allNodes.length);
+                for (let i = 0; i < VIS.length; i++ ) VIS[i] = 0; // init VIS Array
+                
+                var father = new Array(this.allNodes.length); // init father Array
+                father[ind] = ind;
+
+                var T = new Array(this.allNodes.length);
+                for (var i = 0; i < T.length ;i++) T[i] = 0;
+
+                var count = 0;
+                var Gthis = this;
+
+                var thereAreLoop = function (ind) {
+                    VIS[ind] = 1;
+                    T[ind] = ++count;
+                    for (let node of Gthis.getNode(ind).adj) {
+                        if (VIS[node.nodeNumber] === 0 ) {
+                            father[node.nodeNumber] = ind;
+                            var loop = thereAreLoop(node.nodeNumber);
+                            if (loop) return true;
+                        } else if (T[ind] > T[node.nodeNumber] && VIS[node.nodeNumber] === 1) return true;
+                        
+                    }
+                    VIS[ind] = 2;
+                    return false;
+
+                }
+                return thereAreLoop(ind);
+            }
+
+
+
+
         }
 
 
