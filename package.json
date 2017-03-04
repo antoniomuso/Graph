@@ -1,0 +1,11 @@
+{
+  "name": "node_graph",
+  "version": "1.0.0",
+  "description": "implementation of node graph",
+  "main": "graph.js",
+  "scripts": {
+    "test": "node graph"
+  },
+  "author": "AntonioMusolino",
+  "license": "ISC"
+}
