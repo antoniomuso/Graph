@@ -121,7 +121,23 @@ module.exports =
                 return thereAreLoop(ind);
             }
 
-
+            this.BFS = function (ind) {
+                var queue = [];
+                queue.push(this.getNode(ind));
+                var VIS = new Array(this.allNodes.length);
+                for (let i = 0; i < VIS.length; i++ ) VIS[i] = -1; // init VIS Array
+                VIS[ind] = ind;
+                while (queue.length !== 0) {
+                    var node = queue.pop();
+                    for (nod of node.adj) {
+                        if (VIS[nod.nodeNumber] === -1) {
+                            VIS[nod.nodeNumber] = node.nodeNumber;
+                            queue.push(nod); 
+                        }  
+                    }
+                }
+                return {fatherVector: VIS};
+            }
 
 
         }

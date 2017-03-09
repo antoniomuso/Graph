@@ -11,18 +11,18 @@ graph.addNode(new Node("5"));
 graph.addNode(new Node("6"));
 
 
-graph.addIndArcDirect(0,1);
-graph.addIndArcDirect(2,5);
-graph.addIndArcDirect(0,2);
-graph.addIndArcDirect(2,1);
-graph.addIndArcDirect(2,3);
-graph.addIndArcDirect(4,2);
-graph.addIndArcDirect(3,4);
-graph.addIndArcDirect(0,5);
+graph.addIndArc(0,1);
+graph.addIndArc(2,5);
+graph.addIndArc(0,2);
+graph.addIndArc(2,1);
+graph.addIndArc(2,3);
+graph.addIndArc(4,2);
+graph.addIndArc(3,4);
+graph.addIndArc(0,5);
 
 
 
 
-console.log(graph.thereAreLoopDirect(0));
+console.log(graph.BFS(5));
 
 
