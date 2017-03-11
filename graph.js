@@ -140,12 +140,49 @@ module.exports =
             }
 
 
+
+            this.CFC = function () {
+                var VIS = new Array(this.allNodes.length);
+                for (let i = 0; i < VIS.length; i++ ) VIS[i] = 0; // init VIS Array
+                var visit = 0;
+                var ncc = 0;
+                var CC = new Array(this.allNodes.length);
+                for (let i = 0; i < CC.length; i++ ) CC[i] = 0; // init CC Array
+                var gThis = this;
+                var stack = [];
+                var DFS_CFC = function (ind) {
+                    VIS[ind] = ++visit;
+                    var node = gThis.getNode(ind)
+                    stack.push(node);
+                    var back = VIS[ind];
+                    for (nod of node.adj) {
+                        if (VIS[nod.nodeNumber] === 0) {
+                            var backFunk = DFS_CFC(nod.nodeNumber);
+                            back = Math.min(back,backFunk);
+                        } else if (CC[nod.nodeNumber] === 0) {
+                            back = Math.min(back,VIS[nod.nodeNumber]);
+                        }
+                    }
+                    if (back === VIS[ind]) {
+                        ncc++;
+                        do {
+                            var node = stack.pop();
+                            CC[node.nodeNumber] = ncc;
+                        } while (node.nodeNumber !== ind);
+                    }
+                    return back;
+                }
+                for (let i = 0; i < VIS.length; i++) {
+                    if (VIS[i] === 0) {
+                        DFS_CFC(i);
+                    }
+                }
+                return {ConnessComponent: CC, numCC: ncc};
+
+            }
+
+
         }
-
-
-
-
-
 
 
 
