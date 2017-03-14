@@ -27,6 +27,6 @@ graph.addIndArcWDirect(3,4,10);
 
 
 
-console.log(graph.Dijkstra(0));
-
+//console.log(graph.Dijkstra(0));
+console.log(graph.tools.fatherDistance([2,3,2,4,2,3,4,0],0,2))
 

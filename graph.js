@@ -231,8 +231,12 @@ module.exports =
                 return father;
             }
 
+            this.tools = require("./other_graph_script/fathers_script.js");
 
         }
+        
+
+
 
 
 
