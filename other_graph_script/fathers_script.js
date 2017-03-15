@@ -44,7 +44,7 @@ module.exports = {
         return tree;
     },
     nodeRooted: function (fatherVector, node) {
-        var tree = this.buildTreeFFatherV(fatherVector); //O(n)
+        var tree = this.buildTreeFrFatherV(fatherVector); //O(n)
         var arrayOfNode = [];
         var add = function (nodo) { // O(n)
             arrayOfNode.push(nodo)
