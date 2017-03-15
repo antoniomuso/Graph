@@ -1,6 +1,6 @@
 module.exports = {
     fatherDistance: function (fatherVector, node1, node2) { // this alghoritm count distance between two node in fathers Vector
-        var tree = this.rebuildFatherVector(fatherVector);
+        var tree = this.buildTreeFFatherV(fatherVector);
         //var dist = 0;
         var find = function (node, dist) { // find node2 in all tree radicate in node and return distance else 0
             dist++;
@@ -32,7 +32,7 @@ module.exports = {
         return move(node1, 0) - 1; // -1 because this alghoritm count arch and not node
     },
 
-    rebuildFatherVector: function (fatherVector) { // get father to son from fatherVector tree O(n)
+    buildTreeFFatherV: function (fatherVector) { // get father to son from fatherVector tree O(n)
         var tree = new Array(fatherVector.length);
         for (let i = 0; i < tree.length; i++) {
             tree[i] = [];
@@ -44,7 +44,7 @@ module.exports = {
         return tree;
     },
     nodeRooted: function (fatherVector, node) {
-        var tree = this.rebuildFatherVector(fatherVector); //O(n)
+        var tree = this.buildTreeFFatherV(fatherVector); //O(n)
         var arrayOfNode = [];
         var add = function (nodo) { // O(n)
             arrayOfNode.push(nodo)
