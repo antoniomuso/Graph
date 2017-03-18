@@ -44,6 +44,17 @@ module.exports =
                 else throw new Error("Nodes are not been added in Graph");
 
             }
+            this.addWArc = function (node1, node2, weight) {
+                if (node1.nodeNumber != undefined
+                    && node2.nodeNumber != undefined
+                    && this.allNodes[node1.nodeNumber] != undefined
+                    && this.allNodes[node2.nodeNumber] != undefined) {
+                    this.allNodes[node1.nodeNumber].addWeightedArc(this.allNodes[node2.nodeNumber],weight);
+                    this.allNodes[node2.nodeNumber].addWeightedArc(this.allNodes[node1.nodeNumber],weight);
+                }
+                else throw new Error("Nodes are not been added in Graph");
+
+            }
             this.addIndArc = function (intNode1, intNode2) {
                 this.addArc(this.getNode(intNode1), this.getNode(intNode2));
             }
@@ -58,6 +69,9 @@ module.exports =
                     && this.allNodes[node1.nodeNumber] != undefined
                     && this.allNodes[node2.nodeNumber] != undefined) this.allNodes[node1.nodeNumber].addWeightedArc(this.allNodes[node2.nodeNumber], weight);
                 else throw new Error("Nodes are not been added in Graph");
+            }
+            this.addIndWArc = function (intNode1, intNode2, weight) {
+                this.addWArc(this.getNode(intNode1), this.getNode(intNode2), weight);
             }
 
             this.addIndArcWDirect = function (intNode1, intNode2, weight) {
@@ -171,7 +185,7 @@ module.exports =
                     var node = gThis.getNode(ind)
                     stack.push(node);
                     var back = VIS[ind];
-                    for (nod of node.adj) {
+                    for (let nod of node.adj) {
                         if (VIS[nod.nodeNumber] === 0) {
                             var backFunk = DFS_CFC(nod.nodeNumber);
                             back = Math.min(back, backFunk);
@@ -232,6 +246,44 @@ module.exports =
             }
 
             this.tools = require("./other_graph_script/fathers_script.js");
+
+            this.PrimAlgorithm = function () {
+
+                var fatherTree = new Array(this.allNodes.length)
+                for (let i = 0; i < fatherTree.length;i++) fatherTree[i] = -1
+                var node = this.allNodes[0]
+                fatherTree[node.nodeNumber] = node.nodeNumber
+                var costo = new Array(this.allNodes.length)
+                for (let i = 0; i < costo.length; i++) costo[i] = Number.POSITIVE_INFINITY; // init VIS Array || O(n)
+                var A = this.allNodes.slice()
+                costo[0] = 0
+                while (A.length !== 0) {
+                    let nodeMin = (function () {
+                        min = A[0]
+                        for (let i = 0; i < A.length; i++) {
+                            if (costo[A[i].nodeNumber] <= costo[min.nodeNumber]) {
+                                min = costo[A[i].nodeNumber]
+                                node = A[i]
+                            }
+                        }
+                        return node
+                    })()
+                    console.log(nodeMin)
+                    for (let i = 0; i < A.length; i++) {
+                        if (nodeMin.nodeNumber === A[i].nodeNumber) {
+                            A.splice(i,1)
+                            break
+                        }
+                    }
+                    for (let a of nodeMin.adj) {
+                        if (a.w < costo[a.n.nodeNumber] && fatherTree[nodeMin.nodeNumber] !== a.n.nodeNumber) {
+                            costo[a.n.nodeNumber] = a.w
+                            fatherTree[a.n.nodeNumber] = nodeMin.nodeNumber
+                        }
+                    }
+                }
+                return [fatherTree,costo]
+            }
 
         }
         
