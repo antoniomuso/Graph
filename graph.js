@@ -284,6 +284,45 @@ module.exports =
                 }
                 return [fatherTree,costo]
             }
+            this.BFSDist = function (u) {
+                var VIS = new Array(this.allNodes.length);
+                for (let i = 0; i < VIS.length; i++) VIS[i] = 0; // init VIS Array
+
+                var DIST = new Array(this.allNodes.length);
+                for (let i = 0; i < DIST.length; i++) DIST[i] = -1; // init DIST Array
+
+                var PHAD = new Array(this.allNodes.length);
+                for (let i = 0; i < PHAD.length; i++) PHAD[i] = -1; // init PHAD Array
+                var queue = []
+                var nod = this.getNode(u)
+                queue.push(nod)
+                VIS[nod.nodeNumber] = 1
+                PHAD[nod.nodeNumber] = nod.nodeNumber
+                while (queue.length !== 0) {
+                    let s = queue.shift()
+                    DIST[s.nodeNumber] = DIST[PHAD[s.nodeNumber]] + 1
+                    for (node of s.adj) {
+                        if (VIS[node.nodeNumber] === 0) {
+                            VIS[node.nodeNumber] = 1
+                            PHAD[node.nodeNumber] = s.nodeNumber
+                            queue.push(node)
+                        }
+                    }
+
+                }
+                return DIST
+            }
+            this.allNodeSameDistanceFrom = function (u,v) {
+                var uDist = this.BFSDist(u)
+                var vDist = this.BFSDist(v)
+                var result = []
+                for (let i = 0; i < uDist.length; i++) {
+                    if (uDist[i] === vDist[i]) {
+                        result.push(this.getNode(i))
+                    }
+                }
+                return result
+            }
 
         }
         
