@@ -323,6 +323,44 @@ module.exports =
                 }
                 return result
             }
+            /**
+             * @param array1
+             * @param array2
+             */
+            this.distanceINodes = function (array1, array2) {
+                var queue = []
+                var DIST = new Array(this.allNodes.length);
+                var VIS = new Array(this.allNodes.length);
+                var FATH = new Array(this.allNodes.length);
+
+                for (let i = 0; i < VIS.length; i++) VIS[i] = 0; // init VIS Array
+                for (let i = 0; i < DIST.length; i++) DIST[i] = -1; // init DIST Array
+                for (let i = 0; i < FATH.length; i++) FATH[i] = -1; // init FATH Array
+
+                for (let i = 0; i < array1.length; i++) {
+                    if (array1[i] === 1) {
+                        if (array2[i] === 1) return 0
+                        queue.push(this.getNode(i))
+                        VIS[i] = 1
+                        FATH[i] = i
+                    }
+                }
+                while (queue.length !== 0) {
+                    let node = queue.shift()
+                    DIST[node.nodeNumber] = DIST[FATH[node.nodeNumber]] + 1
+                    if (array2[node.nodeNumber] === 1) return DIST[node.nodeNumber]
+                    for (nod of node.adj) {
+                        if (VIS[nod.nodeNumber] === 0) {
+                            VIS[nod.nodeNumber] = 1
+                            FATH[nod.nodeNumber] = node.nodeNumber
+                            queue.push(nod)
+                        }
+                    }
+
+
+                }
+
+            }
 
         }
         
